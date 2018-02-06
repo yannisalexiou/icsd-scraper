@@ -1,6 +1,8 @@
 const request = require('request'); //Helps us make HTTP calls
 const cheerio = require('cheerio');
 
+const course = require('./course');
+
 const semesterOneURL = 'http://www.icsd.aegean.gr/icsd/proptyxiaka/mathimata_ana_examino.php?semester=1';
 const semesterTwoURL = 'http://www.icsd.aegean.gr/icsd/proptyxiaka/mathimata_ana_examino.php?semester=2';
 const semesterThreeURL = 'http://www.icsd.aegean.gr/icsd/proptyxiaka/mathimata_ana_examino.php?semester=3';
@@ -53,6 +55,9 @@ async function checkSemesters() {
 
   for (var i = 0; i < allCourses.length; i++) {
     console.log("Title: " + allCourses[i].title);
+    var basicCourseData = await course.getBasicCourseDetails(allCourses[i].link);
+    console.log("Professor: " + basicCourseData.professor);
+    console.log();
   }
 
 }
