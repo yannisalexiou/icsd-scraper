@@ -2,16 +2,14 @@ const request = require('request'); //Helps us make HTTP calls
 const cheerio = require('cheerio');
 
 const professorDetails = require('./professor');
-var urlDep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=dep';
-var urlPd407 = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=pd407';
-var urlPostDoc = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=postdoc';
-var ulrOthers = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=other';
-var urlEedip = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=eedip';
-var urlEtep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=etep';
 
-// var otherCategories = 'table.menu_default>tbody>tr:nth-child(2)>td'
-// var otherCategories = 'table.menu_default>tbody>tr:nth-child(2)>td'
-// var otherCategories = 'table.menu_default>tbody>tr:nth-child(2)>td'
+//Links to search
+const urlDep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=dep';
+const urlPd407 = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=pd407';
+const urlPostDoc = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=postdoc';
+const ulrOthers = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=other';
+const urlEedip = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=eedip';
+const urlEtep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=etep';
 
 function requestTo(url) {
 return new Promise(function (resolve, reject) {
@@ -23,6 +21,26 @@ return new Promise(function (resolve, reject) {
       }
     });
   });
+}
+
+async function getAllProfessors() {
+  console.log("Please wait");
+  //Final Array
+  var allProfessors;
+
+  var allDepProfessors = await getDepCategoryProfessors(urlDep);
+  console.log("I still searching\n");
+  var allOtherProfessors = await allOtherCategoriesProfessors();
+
+  allProfessors = allDepProfessors.concat(allOtherProfessors);
+
+  for (var i = 0; i < allProfessors.length; i++) {
+    console.log("name: " + allProfessors[i].name);
+    console.log("Academic Grade: " + allProfessors[i].academicRank);
+    console.log("office: " + allProfessors[i].office);
+    console.log();
+  }
+
 }
 
 
@@ -62,11 +80,11 @@ var getDepCategoryProfessors = async (url) => {
 
     professorsOfThisCategory[i] = professorFullDetails;
 
-    console.log("name: " + professorsOfThisCategory[i].name);
-    console.log("office: " + professorsOfThisCategory[i].office);
-    console.log();
+    // console.log("name: " + professorsOfThisCategory[i].name);
+    // console.log("office: " + professorsOfThisCategory[i].office);
+    // console.log();
   }
-  //professorsOfThisCategory has the final values
+  return professorsOfThisCategory;
 }
 
 var allOtherCategoriesProfessors = async () => {
@@ -97,17 +115,17 @@ var allOtherCategoriesProfessors = async () => {
 
     professorsOfOtherCategories[i] = professorFullDetails;
 
-    console.log("name: " + professorsOfOtherCategories[i].name);
-    console.log("office: " + professorsOfOtherCategories[i].office);
-    console.log();
+    // console.log("name: " + professorsOfOtherCategories[i].name);
+    // console.log("office: " + professorsOfOtherCategories[i].office);
+    // console.log();
   }
-
+  return professorsOfOtherCategories;
 
 }
 
 var getOtherCategoryProfessor = async (url) => {
   let html = await requestTo(url);
-  console.log("SWAG");
+  //console.log("SWAG");
   //The final Array
   var professorsOfThisCategory;
 
@@ -115,8 +133,8 @@ var getOtherCategoryProfessor = async (url) => {
 
   var splittedLink = splitEqual(url);
   var academicRank = checkAcademicRank(splittedLink[1]);
-  var thisCategoryProfessors = otherProfessorsTable(generalSelector, html, academicRank);
-  return thisCategoryProfessors;
+  var professorsOfThisCategory = otherProfessorsTable(generalSelector, html, academicRank);
+  return professorsOfThisCategory;
 
 }
 
@@ -244,6 +262,7 @@ function splitEqual(receivedMessage) {
   return fields;
 }
 
-allOtherCategoriesProfessors();
+getAllProfessors();
+//allOtherCategoriesProfessors();
 //getOtherCategoryProfessor(urlPostDoc);
 //getDepCategoryProfessors(urlDep);
