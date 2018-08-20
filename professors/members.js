@@ -24,22 +24,32 @@ return new Promise(function (resolve, reject) {
 }
 
 async function getAllProfessors() {
-  console.log("Please wait");
+  console.log("Please wait 🤓");
   //Final Array
   var allProfessors;
 
   var allDepProfessors = await getDepCategoryProfessors(urlDep);
-  console.log("I still searching\n");
+  console.log("I still searching 🧐 \n");
   var allOtherProfessors = await allOtherCategoriesProfessors();
 
   allProfessors = allDepProfessors.concat(allOtherProfessors);
 
-  for (var i = 0; i < allProfessors.length; i++) {
-    console.log("name: " + allProfessors[i].name);
-    console.log("Academic Grade: " + allProfessors[i].academicRank);
-    console.log("office: " + allProfessors[i].office);
-    console.log();
-  }
+  // var counter = 0;
+  // for (var i = 0; i < allProfessors.length; i++) {
+  //   console.log("Name: " + allProfessors[i].name);
+  //   console.log("Academic Grade: " + allProfessors[i].academicRank);
+  //   console.log("Office: " + allProfessors[i].office);
+  //   console.log("Link: " + allProfessors[i].link);
+  //   console.log("Tel: " + allProfessors[i].tel);
+  //   //console.log("Email: " + allProfessors[i].email);
+  //   console.log("Website: " + allProfessors[i].website);
+  //   console.log("Image: " + allProfessors[i].image);
+  //   console.log();
+  //   counter++;
+  // }
+  // console.log("Όλοι οι καθηγητές του ICSD: " + counter);
+
+  return allProfessors;
 
 }
 
@@ -262,7 +272,11 @@ function splitEqual(receivedMessage) {
   return fields;
 }
 
-getAllProfessors();
+module.exports = {
+  getAllProfessors
+};
+
+//getAllProfessors();
 //allOtherCategoriesProfessors();
 //getOtherCategoryProfessor(urlPostDoc);
 //getDepCategoryProfessors(urlDep);

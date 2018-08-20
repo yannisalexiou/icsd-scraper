@@ -26,7 +26,7 @@ return new Promise(function (resolve, reject) {
   });
 }
 
-async function checkSemesters() {
+async function checkSemesters(isBasic) {
   //The final Array
   var allCourses;
 
@@ -53,13 +53,47 @@ async function checkSemesters() {
     semesterTenCourses
   );
 
-  for (var i = 0; i < allCourses.length; i++) {
-    console.log("Title: " + allCourses[i].title);
-    var basicCourseData = await course.getBasicCourseDetails(allCourses[i].link);
-    console.log("Professor: " + basicCourseData.professor);
-    console.log();
-  }
+  if (isBasic == true) {
+    var basicCourseData = [];
+    for (var i = 0; i < allCourses.length; i++) {
+      console.log("Title: " + allCourses[i].title);
+      var basicCourseData = await course.getBasicCourseDetails(allCourses[i].link);
+      console.log("Professor: " + basicCourseData.professor);
+      console.log("code: " + basicCourseData.code);
+      console.log("semester: " + basicCourseData.semester);
+      console.log("ects: " + basicCourseData.ects);
+      console.log("theoryHours: " + basicCourseData.theoryHours);
+      console.log("labHours: " + basicCourseData.labHours);
+      console.log();
+    }
+    return basicCourseData;
 
+  }
+  else {
+    var advancedCourseData = [];
+    for (var i = 0; i < allCourses.length; i++) {
+      console.log("Title: " + allCourses[i].title);
+      var advancedCourseData = await course.getAllCourseDetails(allCourses[i].link);
+      console.log("Professor: " + advancedCourseData.professor);
+      console.log("code: " + advancedCourseData.code);
+      console.log("semester: " + advancedCourseData.semester);
+      console.log("ects: " + advancedCourseData.ects);
+      console.log("theoryHours: " + advancedCourseData.theoryHours);
+      console.log("labHours: " + advancedCourseData.labHours);
+      console.log("courseWebsite: " + advancedCourseData.courseWebsite);
+      console.log("contentOutline: " + advancedCourseData.contentOutline);
+      console.log("learningOutcomes: " + advancedCourseData.learningOutcomes);
+      console.log("prerequisites: " + advancedCourseData.prerequisites);
+      console.log("basicTextbooks: " + advancedCourseData.basicTextbooks);
+      console.log("additionalReferences: " + advancedCourseData.additionalReferences);
+      console.log("teachingMethod: " + advancedCourseData.teachingMethod);
+      console.log("grandingMethod: " + advancedCourseData.grandingMethod);
+      console.log("languageOfInstruction: " + advancedCourseData.languageOfInstruction);
+      console.log("modeOfDelivery: " + advancedCourseData.modeOfDelivery);
+      console.log();
+    }
+    return advancedCourseData;
+  }
 }
 
 async function getCourseStructOfSemester(url) {
@@ -197,4 +231,8 @@ function splitEqual(receivedMessage) {
 }
 
 //getCourseStructOfSemester(semesterSevenURL);
-checkSemesters();
+//checkSemesters();
+
+module.exports = {
+  checkSemesters
+};
