@@ -66,7 +66,8 @@ async function checkSemesters(isBasic) {
   else {
     var advancedCourseData = [];
     for (var i = 0; i < allCourses.length; i++) {
-      var advancedCourseData = await course.getAllCourseDetails(allCourses[i].link);
+      var thisAdvancedCourseData = await course.getAllCourseDetails(allCourses[i].link);
+      advancedCourseData.push(thisAdvancedCourseData);
     }
     return advancedCourseData;
   }

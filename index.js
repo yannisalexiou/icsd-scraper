@@ -27,12 +27,10 @@ async function getAdvancedCourses() {
 
 async function getAdvancedCourseDetails(url) {
   console.log("Please wait...");
-  var courseAdvancedDetails = await course.getAdvnacedCourseDetails(url);
+  var courseAdvancedDetails = await course.getAdvancedCourseDetails(url);
 
   return courseAdvancedDetails;
 }
-
-getProfessors()
 
 module.exports = {
   getProfessors,
