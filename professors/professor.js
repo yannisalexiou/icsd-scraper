@@ -1,6 +1,5 @@
 const request = require('request'); //Helps us make HTTP calls
 const cheerio = require('cheerio');
-//var urlProfProfile = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=dep&member=19'; //TestUrl
 
 const nameSelector = 'table#table1>tbody>tr:nth-child(1)>td:nth-child(3)';
 const officeSelector = 'table#table1>tbody>tr:nth-child(2)>td:nth-child(2)';

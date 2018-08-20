@@ -24,7 +24,8 @@ return new Promise(function (resolve, reject) {
 }
 
 async function getAllProfessors() {
-  console.log("Please wait 🤓");
+  console.log("Start searching... 🤓");
+
   //Final Array
   var allProfessors;
 
@@ -34,23 +35,7 @@ async function getAllProfessors() {
 
   allProfessors = allDepProfessors.concat(allOtherProfessors);
 
-  // var counter = 0;
-  // for (var i = 0; i < allProfessors.length; i++) {
-  //   console.log("Name: " + allProfessors[i].name);
-  //   console.log("Academic Grade: " + allProfessors[i].academicRank);
-  //   console.log("Office: " + allProfessors[i].office);
-  //   console.log("Link: " + allProfessors[i].link);
-  //   console.log("Tel: " + allProfessors[i].tel);
-  //   //console.log("Email: " + allProfessors[i].email);
-  //   console.log("Website: " + allProfessors[i].website);
-  //   console.log("Image: " + allProfessors[i].image);
-  //   console.log();
-  //   counter++;
-  // }
-  // console.log("Όλοι οι καθηγητές του ICSD: " + counter);
-
   return allProfessors;
-
 }
 
 
@@ -85,15 +70,12 @@ var getDepCategoryProfessors = async (url) => {
   for (let i = 0; i < professorsOfThisCategory.length; i++) {
 
     let thisProfessor = professorsOfThisCategory[i]
-    //Αν την await την φέρω μέσα σε αυτό το block  θα έχω καλύτερη ταχύτητα.
     var professorFullDetails = await getProfessorProfile(thisProfessor);
 
+    //name, offce etc
     professorsOfThisCategory[i] = professorFullDetails;
-
-    // console.log("name: " + professorsOfThisCategory[i].name);
-    // console.log("office: " + professorsOfThisCategory[i].office);
-    // console.log();
   }
+
   return professorsOfThisCategory;
 }
 
@@ -120,14 +102,10 @@ var allOtherCategoriesProfessors = async () => {
   for (let i = 0; i < professorsOfOtherCategories.length; i++) {
 
     let thisProfessor = professorsOfOtherCategories[i]
-    //Αν την await την φέρω μέσα σε αυτό το block  θα έχω καλύτερη ταχύτητα.
     var professorFullDetails = await getProfessorProfile(thisProfessor);
 
+    //name, office etc
     professorsOfOtherCategories[i] = professorFullDetails;
-
-    // console.log("name: " + professorsOfOtherCategories[i].name);
-    // console.log("office: " + professorsOfOtherCategories[i].office);
-    // console.log();
   }
   return professorsOfOtherCategories;
 
@@ -135,7 +113,7 @@ var allOtherCategoriesProfessors = async () => {
 
 var getOtherCategoryProfessor = async (url) => {
   let html = await requestTo(url);
-  //console.log("SWAG");
+
   //The final Array
   var professorsOfThisCategory;
 
@@ -146,22 +124,6 @@ var getOtherCategoryProfessor = async (url) => {
   var professorsOfThisCategory = otherProfessorsTable(generalSelector, html, academicRank);
   return professorsOfThisCategory;
 
-}
-
-async function getProfessorProfile(thisProfessor) {
-  var retrievedProfessorProfile = await professorDetails.getProfessorsDetails(thisProfessor.link);
-
-  var eachProfessorFullDetails = {
-    name: thisProfessor.name,
-    academicRank: thisProfessor.academicRank,
-    link: thisProfessor.link,
-    office: retrievedProfessorProfile.office,
-    tel: retrievedProfessorProfile.tel,
-    email: retrievedProfessorProfile.email,
-    website: retrievedProfessorProfile.website,
-    image: retrievedProfessorProfile.image
-  }
-  return eachProfessorFullDetails;
 }
 
 function otherProfessorsTable(selector, html, academicRank) {
@@ -176,13 +138,9 @@ function otherProfessorsTable(selector, html, academicRank) {
 
   professorsOfThisCategory = fullSideListFiltered.children('td').each(function(i, elem) {
     var data = $(this);
-    //console.log("data: " + data);
 
     var name = data.children().children().text();
     var link = data.children().children().attr('href');
-    // console.log("name: " + name);
-    // console.log("link: " + link);
-    // console.log("AcademicRank: " + academicRank);
 
     var eachItem = {
       name: name,
@@ -206,7 +164,7 @@ function professorDepTable(selector, html) {
   const professorsProfieArray = [];
   const icsdDomain = 'http://www.icsd.aegean.gr';
   var academicRank = '';
-  //console.log("fullSideListFiltered: " + fullSideListFiltered);
+
   professorsOfThisCategory = fullSideListFiltered.children('td').each(function(i, elem) {
     var data = $(this);
 
@@ -266,6 +224,22 @@ function checkAcademicRank(receivedString) {
   return academicRank;
 }
 
+async function getProfessorProfile(thisProfessor) {
+  var retrievedProfessorProfile = await professorDetails.getProfessorsDetails(thisProfessor.link);
+
+  var eachProfessorFullDetails = {
+    name: thisProfessor.name,
+    academicRank: thisProfessor.academicRank,
+    link: thisProfessor.link,
+    office: retrievedProfessorProfile.office,
+    tel: retrievedProfessorProfile.tel,
+    email: retrievedProfessorProfile.email,
+    website: retrievedProfessorProfile.website,
+    image: retrievedProfessorProfile.image
+  }
+  return eachProfessorFullDetails;
+}
+
 function splitEqual(receivedMessage) {
   var fields = receivedMessage.split('=');
 
@@ -275,8 +249,3 @@ function splitEqual(receivedMessage) {
 module.exports = {
   getAllProfessors
 };
-
-//getAllProfessors();
-//allOtherCategoriesProfessors();
-//getOtherCategoryProfessor(urlPostDoc);
-//getDepCategoryProfessors(urlDep);

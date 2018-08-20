@@ -1,31 +1,42 @@
 const professor = require('./professors/members');
-const course = require('./courses/semester');
+const semester = require('./courses/semester');
+const course = require('./courses/course');
 
 async function getProfessors() {
+  console.log("Please wait...");
   var allProfessors = await professor.getAllProfessors();
-  console.log("Professors", allProfessors);
+
   return allProfessors;
 }
 
 async function getBasicCourses() {
+  console.log("Please wait...");
   var isBasic = true;
-  var allCourses = await course.checkSemesters(isBasic);
-  console.log("allCourses", allCourses);
+  var allCourses = await semester.checkSemesters(isBasic);
+
   return allCourses;
 }
 
 async function getAdvancedCourses() {
+  console.log("Please wait...");
   var isBasic = false;
-  var allCourses = await course.checkSemesters(isBasic);
+  var allCourses = await semester.checkSemesters(isBasic);
 
   return allCourses;
 }
 
-getBasicCourses();
-// getProfessors();
+async function getAdvancedCourseDetails(url) {
+  console.log("Please wait...");
+  var courseAdvancedDetails = await course.getAdvnacedCourseDetails(url);
+
+  return courseAdvancedDetails;
+}
+
+getProfessors()
 
 module.exports = {
   getProfessors,
   getBasicCourses,
-  getAdvancedCourses
+  getAdvancedCourses,
+  getAdvancedCourseDetails
 };

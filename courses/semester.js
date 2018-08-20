@@ -56,15 +56,9 @@ async function checkSemesters(isBasic) {
   if (isBasic == true) {
     var basicCourseData = [];
     for (var i = 0; i < allCourses.length; i++) {
-      console.log("Title: " + allCourses[i].title);
-      var basicCourseData = await course.getBasicCourseDetails(allCourses[i].link);
-      console.log("Professor: " + basicCourseData.professor);
-      console.log("code: " + basicCourseData.code);
-      console.log("semester: " + basicCourseData.semester);
-      console.log("ects: " + basicCourseData.ects);
-      console.log("theoryHours: " + basicCourseData.theoryHours);
-      console.log("labHours: " + basicCourseData.labHours);
-      console.log();
+      //console.log("Title: " + allCourses[i].title);
+      var thisBasicData = await course.getBasicCourseDetails(allCourses[i].link);
+      basicCourseData.push(thisBasicData);
     }
     return basicCourseData;
 
@@ -72,25 +66,7 @@ async function checkSemesters(isBasic) {
   else {
     var advancedCourseData = [];
     for (var i = 0; i < allCourses.length; i++) {
-      console.log("Title: " + allCourses[i].title);
       var advancedCourseData = await course.getAllCourseDetails(allCourses[i].link);
-      console.log("Professor: " + advancedCourseData.professor);
-      console.log("code: " + advancedCourseData.code);
-      console.log("semester: " + advancedCourseData.semester);
-      console.log("ects: " + advancedCourseData.ects);
-      console.log("theoryHours: " + advancedCourseData.theoryHours);
-      console.log("labHours: " + advancedCourseData.labHours);
-      console.log("courseWebsite: " + advancedCourseData.courseWebsite);
-      console.log("contentOutline: " + advancedCourseData.contentOutline);
-      console.log("learningOutcomes: " + advancedCourseData.learningOutcomes);
-      console.log("prerequisites: " + advancedCourseData.prerequisites);
-      console.log("basicTextbooks: " + advancedCourseData.basicTextbooks);
-      console.log("additionalReferences: " + advancedCourseData.additionalReferences);
-      console.log("teachingMethod: " + advancedCourseData.teachingMethod);
-      console.log("grandingMethod: " + advancedCourseData.grandingMethod);
-      console.log("languageOfInstruction: " + advancedCourseData.languageOfInstruction);
-      console.log("modeOfDelivery: " + advancedCourseData.modeOfDelivery);
-      console.log();
     }
     return advancedCourseData;
   }
@@ -100,7 +76,6 @@ async function getCourseStructOfSemester(url) {
 
   var semester = identifySemester(url);
   var thisSemesterCourses;
-  console.log("Semester: " + semester );
   if (semester < 7 || semester == 10) {
     //Compulsory
     thisSemesterCourses = await getCompulsorySemesterCourses(url, semester);
@@ -136,7 +111,6 @@ function compulsorySemesterSelector(html, selector, semester) {
 
   coursesOfThisSemester = tableFiltered.children('tr').each(function(i, elem) {
     var data = $(this);
-    //console.log("data: " + data);
 
     var isLesson = data.children().attr('align');
     if (isLesson) {
@@ -159,7 +133,7 @@ function compulsorySemesterSelector(html, selector, semester) {
         labHours: labHours,
         ects: ects
       }
-      //console.log("eachItem code: " + eachItem.code);
+
       coursesArray.push(eachItem);
     }
   });
@@ -182,13 +156,12 @@ function cycleSemesterSelector(html, selector, semester) {
     var data = $(this);
     return data;
   });
-  //console.log("tableFiltered: " + tableFiltered);
+
   var coursesArray = [];
   const icsdDomain = 'http://www.icsd.aegean.gr';
 
   coursesOfThisSemester = tableFiltered.children('tr').each(function(i, elem) {
     var data = $(this);
-    //console.log("data: " + data);
 
     var isLesson = data.children().attr('align');
     if (isLesson) {
@@ -211,7 +184,7 @@ function cycleSemesterSelector(html, selector, semester) {
         labHours: labHours,
         ects: ects
       }
-      //console.log("eachItem code: " + eachItem.title);
+
       coursesArray.push(eachItem);
     }
   });
@@ -229,9 +202,6 @@ function splitEqual(receivedMessage) {
 
   return fields;
 }
-
-//getCourseStructOfSemester(semesterSevenURL);
-//checkSemesters();
 
 module.exports = {
   checkSemesters

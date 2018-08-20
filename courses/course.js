@@ -1,6 +1,5 @@
 const request = require('request'); //Helps us make HTTP calls
 const cheerio = require('cheerio');
-var testUrl = 'http://www.icsd.aegean.gr/icsd/proptyxiaka/istoselida_mathimatos.php?lesson_id=321-9703';
 
 const generalSelector = 'table.wrapper>tbody>tr>td>center:nth-child(10)>table>tbody>tr:nth-child(1)>td>center>table>tbody>tr>td:nth-child(2)';
 const firstFixTableSelector = 'table.wrapper>tbody>tr>td>center:nth-child(10)>table>tbody>tr:nth-child(1)>td>center>table>tbody>tr>td:nth-child(2)>table>tbody>tr:nth-child(2)>td';
@@ -29,24 +28,24 @@ return new Promise(function (resolve, reject) {
 
 async function getAllCourseDetails(url) {
   let html = await requestCourseDetails(url);
-  var allCourseDetailsList = allCourseDetails(html);
+  var allCourseDetailsList = allCourseDetails(html, url);
   return allCourseDetailsList
 }
 
 async function getBasicCourseDetails(url) {
   let html = await requestCourseDetails(url);
-  var basicCourseDetailsList = basicCourseData(html);
+  var basicCourseDetailsList = basicCourseData(html, url);
   return basicCourseDetailsList;
 }
 
-async function getAdvnacedCourseDetails(url) {
+async function getAdvancedCourseDetails(url) {
   let html = await requestCourseDetails(url);
   var advancedCourseDetailsList = advancedCourseData(html);
   return advancedCourseDetailsList;
 }
 
-function allCourseDetails(html) {
-  var basicData = basicCourseData(html);
+function allCourseDetails(html, url) {
+  var basicData = basicCourseData(html, url);
   var advancedData = advancedCourseData(html);
 
   var finalData = Object.assign(basicData, advancedData);
@@ -54,7 +53,7 @@ function allCourseDetails(html) {
   return finalData;
 }
 
-function basicCourseData(html) {
+function basicCourseData(html, url) {
   var $ = cheerio.load(html);
   var firstFixTable = $('table.mathima>tbody>tr').filter(function() {
     var data = $(this);
@@ -76,7 +75,8 @@ function basicCourseData(html) {
     ects: ects,
     theoryHours: theoryHours,
     labHours: labHours,
-    professor: professor
+    professor: professor,
+    link: url
   }
 
   return basicData;
@@ -112,10 +112,8 @@ function advancedCourseData(html) {
   return advancedData;
 }
 
-//getAllCourseDetails(testUrl);
-
 module.exports = {
   getAllCourseDetails,
   getBasicCourseDetails,
-  getAdvnacedCourseDetails
+  getAdvancedCourseDetails
 };
