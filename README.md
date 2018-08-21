@@ -1,6 +1,6 @@
 # icsd-scraper
 
-A Node.js package that scraps the [ICSD site] {http://www.icsd.aegean.gr/icsd/} and retrieve informations about courses and professors.
+A Node.js package that scraps the [ICSD site] (http://www.icsd.aegean.gr/icsd/) and retrieve informations about courses and professors.
 This package is very useful for thesis work or other academic projects.
 
 ## Usage
