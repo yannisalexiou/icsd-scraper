@@ -78,7 +78,7 @@ Returns all courses with the below details, as an array of objects:
 
 ### getAdvancedCourseDetails(url)
 Insert as argument the link of the course (from getBasicCourses use the key link):
-Return an object withe the same details as getAdvancedCourses
+Returns an object withe the same details as getAdvancedCourses
 
 ## License
 GNU GPLv3
