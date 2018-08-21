@@ -1,5 +1,5 @@
 {
-  "name": "icsd-scrapper",
+  "name": "icsd-scraper",
   "version": "1.0.0",
   "description": "A Node.js module to scrap the icsd site and retrieve details about professros and courses.",
   "main": "index.js",
