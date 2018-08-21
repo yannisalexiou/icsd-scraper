@@ -5,7 +5,7 @@
 [![GitHub version](https://badge.fury.io/gh/yannisalexiou%2Ficsd-scraper.svg)](https://badge.fury.io/gh/yannisalexiou%2Ficsd-scraper)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-##Simple Description
+## Simple Description
 A Node.js package that scraps the [ICSD site](http://www.icsd.aegean.gr/icsd/) and retrieve informations about courses and professors.
 This package is very useful for thesis work or other academic projects.
 
