@@ -1,7 +1,7 @@
 {
-  "name": "icsdscrapper",
+  "name": "icsd-scrapper",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Node.js module to scrap the icsd site and retrieve details about professros and courses.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
