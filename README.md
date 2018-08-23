@@ -17,7 +17,7 @@ First install the package using npm:
 npm install --save icsd-scraper
 ```
 Then, require the package and use it like so:
-```
+```javascript
 const icsdScraper = require('icsd-scraper');
 
 var allProfessors = icsdScraper.getProfessors();
