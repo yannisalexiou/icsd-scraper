@@ -6,7 +6,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Simple Description
-A Node.js package that scraps the [ICSD site](http://www.icsd.aegean.gr/icsd/) and retrieve informations about courses and professors.
+A Node.js package that scraps the [ICSD site](http://www.icsd.aegean.gr/icsd/) and retrieve details about courses and professors.
 This package is very useful for thesis work or other academic projects.
 
 ## Usage
@@ -38,7 +38,7 @@ advancedCoursesInfo.then(function (results) {
 ```
 ## Functions Documentation
 ### getProfessors
-Returns all professors with the below details, as an array of objects:
+Returns all professors as an array of objects with the below details:
 * name
 * academicRank
 * link
@@ -49,7 +49,7 @@ Returns all professors with the below details, as an array of objects:
 * image
 
 ### getBasicCourses
-Returns all courses with the below details, as an array of objects:
+Returns all courses as an array of objects with the below details:
 * title
 * code
 * semester
@@ -60,7 +60,7 @@ Returns all courses with the below details, as an array of objects:
 * link
 
 ### getAdvancedCourses
-Returns all courses with the below details, as an array of objects:
+Returns all courses as an array of objects with the below details:
 * title
 * code
 * semester
@@ -83,8 +83,8 @@ Returns all courses with the below details, as an array of objects:
 **⚠️Ιmportant:** `getAdvancedCourses` doesn't always work properly due to lack of consistency of ICSD site. So it's better to use the `getBasicCourses` to retrieve basic course informations and then if you want more, use `getAdvancedCourseDetails(url)` to see the differences.
 
 ### getAdvancedCourseDetails(url)
-Insert as argument the link of the course (from getBasicCourses use the key link):
-Returns an object withe the same details as getAdvancedCourses
+Insert as argument the link of the course (from `getBasicCourses` use the value of the key with the name link):
+Returns an object with the same details as the `getAdvancedCourses`.
 
 ## License
 GNU GPLv3
