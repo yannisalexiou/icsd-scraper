@@ -102,31 +102,31 @@ function checkAcademicRank(receivedString) {
   var academicRank = "";
   switch (receivedString) {
     case "kathigitis":
-      academicRank = "Καθηγητής"
+      academicRank = "Καθηγητής";
       break;
     case "anaplirotis":
-      academicRank = "Αναπληρωτής Καθηγητής"
+      academicRank = "Αναπληρωτής Καθηγητής";
       break;
     case "mepikouros":
-      academicRank = "Μόνιμος Επίκουρος Καθηγητής"
+      academicRank = "Μόνιμος Επίκουρος Καθηγητής";
       break;
     case "epikouros":
-      academicRank = "Επίκουρος Καθηγητής"
+      academicRank = "Επίκουρος Καθηγητής";
       break;
     case "meta":
-      academicRank = "Μεταδιδάκτορας"
+      academicRank = "Μεταδιδάκτορας";
       break;
     case "eedip":
-      academicRank = "ΕΔΙΠ/ΕΕΠ"
+      academicRank = "ΕΔΙΠ/ΕΕΠ";
       break;
     case "phd":
-      academicRank = "Υποψήφιος Διδάκτορας"
+      academicRank = "Υποψήφιος Διδάκτορας";
       break;
     case "external":
-      academicRank = "Εξωτερικός Συνεργάτης"
+      academicRank = "Εξωτερικός Συνεργάτης";
       break;
     default:
-      academicRank = "Διδάσκων"
+      academicRank = "Διδάσκων";
   }
   return academicRank;
 }
