@@ -1,6 +1,6 @@
-const professor = require('./professors/members');
-const semester = require('./courses/semester');
-const course = require('./courses/course');
+const professor = require("./professors/members");
+const semester = require("./courses/semester");
+const course = require("./courses/course");
 
 async function getProfessors() {
   console.log("Please wait...");

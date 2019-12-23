@@ -1,16 +1,16 @@
-const request = require('request'); //Helps us make HTTP calls
-const cheerio = require('cheerio');
+const request = require("request"); //Helps us make HTTP calls
+const cheerio = require("cheerio");
 
-const generalSelector = 'div.tab-content';
-const contentOutlineSelector = 'div.tab-content>div:nth-child(3)>div:nth-child(2)>p'
-const learningOutcomesSelector = 'div.tab-content>div:nth-child(4)>div:nth-child(2)>';
-const prerequisitesSelector = 'div.tab-content>div:nth-child(5)>div:nth-child(2)>p';
-const basicTextbooksSelector = 'div.tab-content>div:nth-child(6)>div:nth-child(2)>';
-const additionalReferencesSelector = 'div.tab-content>div:nth-child(7)>div:nth-child(2)>';
-const teachingMethodSelector = 'div.tab-content>div:nth-child(8)>div:nth-child(2)>p';
-const grandingMethodSelector = 'div.tab-content>div:nth-child(9)>div:nth-child(2)>p';
-const languageOfInstructionSelector = 'div.tab-content>div:nth-child(10)>div:nth-child(2)';
-const modeOfDeliverySelector = 'div.tab-content>div:nth-child(11)>div:nth-child(2)>p';
+const generalSelector = "div.tab-content";
+const contentOutlineSelector = "div.tab-content>div:nth-child(3)>div:nth-child(2)>p";
+const learningOutcomesSelector = "div.tab-content>div:nth-child(4)>div:nth-child(2)>";
+const prerequisitesSelector = "div.tab-content>div:nth-child(5)>div:nth-child(2)>p";
+const basicTextbooksSelector = "div.tab-content>div:nth-child(6)>div:nth-child(2)>";
+const additionalReferencesSelector = "div.tab-content>div:nth-child(7)>div:nth-child(2)>";
+const teachingMethodSelector = "div.tab-content>div:nth-child(8)>div:nth-child(2)>p";
+const grandingMethodSelector = "div.tab-content>div:nth-child(9)>div:nth-child(2)>p";
+const languageOfInstructionSelector = "div.tab-content>div:nth-child(10)>div:nth-child(2)";
+const modeOfDeliverySelector = "div.tab-content>div:nth-child(11)>div:nth-child(2)>p";
 
 function requestCourseDetails(url) {
     return new Promise(function (resolve, reject) {
@@ -53,7 +53,7 @@ function allCourseDetails(html, url) {
 
 function basicCourseData(html, url) {
     var $ = cheerio.load(html);
-    var firstFixTable = $('table.table>tbody').filter(function () {
+    var firstFixTable = $("table.table>tbody").filter(function () {
         var data = $(this);
         return data;
     });

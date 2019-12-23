@@ -1,12 +1,12 @@
-const request = require('request'); //Helps us make HTTP calls
-const cheerio = require('cheerio');
+const request = require("request"); //Helps us make HTTP calls
+const cheerio = require("cheerio");
 
-const professorDetails = require('./professor');
+const professorDetails = require("./professor");
 
 //New Links
-const academicStaff = 'http://www.icsd.aegean.gr/icsd/akadimaiko';
-const labStaff = 'http://www.icsd.aegean.gr/icsd/ergastiriako';
-const researchStaff = 'http://www.icsd.aegean.gr/icsd/erevnitiko';
+const academicStaff = "http://www.icsd.aegean.gr/icsd/akadimaiko";
+const labStaff = "http://www.icsd.aegean.gr/icsd/ergastiriako";
+const researchStaff = "http://www.icsd.aegean.gr/icsd/erevnitiko";
 
 function requestTo(url) {
 return new Promise(function (resolve, reject) {
@@ -60,7 +60,7 @@ var allProfessorsCategories = async () => {
 var getProfessorCategory = async (url) => {
   let html = await requestTo(url);
 
-  var generalSelector = 'div.grid';
+  var generalSelector = "div.grid";
 
   //The final Array
   var professorsOfThisCategory = professorSectionDiv(generalSelector, html);
@@ -76,14 +76,14 @@ function professorSectionDiv(selector, html) {
   });
 
   const professorsProfieArray = [];
-  const icsdDomain = 'http://www.icsd.aegean.gr/icsd/';
+  const icsdDomain = "http://www.icsd.aegean.gr/icsd/";
 
-  professorsOfThisCategory = fullSideListFiltered.children('div').each(function(i, elem) {
+  professorsOfThisCategory = fullSideListFiltered.children("div").each(function(i, elem) {
     var data = $(this);
 
-    var name = data.children('a').children('p').eq(0).text();
-    var link = data.children('a').attr('href');
-    var academicRank = data.attr('data-category');
+    var name = data.children("a").children("p").eq(0).text();
+    var link = data.children("a").attr("href");
+    var academicRank = data.attr("data-category");
     academicRank = checkAcademicRank(academicRank);
 
     var eachItem = {
@@ -99,34 +99,34 @@ function professorSectionDiv(selector, html) {
 }
 
 function checkAcademicRank(receivedString) {
-  var academicRank = '';
+  var academicRank = "";
   switch (receivedString) {
-    case 'kathigitis':
-      academicRank = 'Καθηγητής'
+    case "kathigitis":
+      academicRank = "Καθηγητής"
       break;
-    case 'anaplirotis':
-      academicRank = 'Αναπληρωτής Καθηγητής'
+    case "anaplirotis":
+      academicRank = "Αναπληρωτής Καθηγητής"
       break;
-    case 'mepikouros':
-      academicRank = 'Μόνιμος Επίκουρος Καθηγητής'
+    case "mepikouros":
+      academicRank = "Μόνιμος Επίκουρος Καθηγητής"
       break;
-    case 'epikouros':
-      academicRank = 'Επίκουρος Καθηγητής'
+    case "epikouros":
+      academicRank = "Επίκουρος Καθηγητής"
       break;
-    case 'meta':
-      academicRank = 'Μεταδιδάκτορας'
+    case "meta":
+      academicRank = "Μεταδιδάκτορας"
       break;
-    case 'eedip':
-      academicRank = 'ΕΔΙΠ/ΕΕΠ'
+    case "eedip":
+      academicRank = "ΕΔΙΠ/ΕΕΠ"
       break;
-    case 'phd':
-      academicRank = 'Υποψήφιος Διδάκτορας'
+    case "phd":
+      academicRank = "Υποψήφιος Διδάκτορας"
       break;
-    case 'external':
-      academicRank = 'Εξωτερικός Συνεργάτης'
+    case "external":
+      academicRank = "Εξωτερικός Συνεργάτης"
       break;
     default:
-      academicRank = 'Διδάσκων'
+      academicRank = "Διδάσκων"
   }
   return academicRank;
 }

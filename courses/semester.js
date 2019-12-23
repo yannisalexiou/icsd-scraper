@@ -1,26 +1,26 @@
-const request = require('request'); //Helps us make HTTP calls
-const cheerio = require('cheerio');
+const request = require("request"); //Helps us make HTTP calls
+const cheerio = require("cheerio");
 
-const course = require('./course');
+const course = require("./course");
 
-const coursesUrl = 'http://www.icsd.aegean.gr/icsd/pps';
-//New way
-const semesterOneSelector = 'div#exam1>div:nth-child(2)>';
-const semesterTwoSelector = 'div#exam2>div:nth-child(2)>';
-const semesterThreeSelector = 'div#exam3>div:nth-child(2)>';
-const semesterFourSelector = 'div#exam4>div:nth-child(2)>';
-const semesterFiveSelector = 'div#exam5>div:nth-child(2)>';
-const semesterSixSelector = 'div#exam6>div:nth-child(2)>';
-const semesterSevenSelector = 'div#exam7>div:nth-child(2)>';
-const semesterEightSelector = 'div#exam8>div:nth-child(2)>';
-const semesterNineSelector = 'div#exam9>div:nth-child(2)>';
-const semesterTenSelector = 'div#exam10>div:nth-child(2)>';
+const coursesUrl = "http://www.icsd.aegean.gr/icsd/pps";
+//New site v2
+const semesterOneSelector = "div#exam1>div:nth-child(2)>";
+const semesterTwoSelector = "div#exam2>div:nth-child(2)>";
+const semesterThreeSelector = "div#exam3>div:nth-child(2)>";
+const semesterFourSelector = "div#exam4>div:nth-child(2)>";
+const semesterFiveSelector = "div#exam5>div:nth-child(2)>";
+const semesterSixSelector = "div#exam6>div:nth-child(2)>";
+const semesterSevenSelector = "div#exam7>div:nth-child(2)>";
+const semesterEightSelector = "div#exam8>div:nth-child(2)>";
+const semesterNineSelector = "div#exam9>div:nth-child(2)>";
+const semesterTenSelector = "div#exam10>div:nth-child(2)>";
 
 //Append
-const compulsorySemesterTableSelector = 'div>div:nth-child(1)>table>tbody';
-const cicleSemesterTableSelector = 'div>div:nth-child(2)';
-const optionalSemesterTableSelector = 'div>div:nth-child(3)>table>tbody';
-const freeCourseSemesterTableSelector = 'div>div:nth-child(4)>table>tbody'
+const compulsorySemesterTableSelector = "div>div:nth-child(1)>table>tbody";
+const cicleSemesterTableSelector = "div>div:nth-child(2)";
+const optionalSemesterTableSelector = "div>div:nth-child(3)>table>tbody";
+const freeCourseSemesterTableSelector = "div>div:nth-child(4)>table>tbody";
 
 function requestTo(url) {
   return new Promise(function (resolve, reject) {
@@ -120,15 +120,15 @@ function simpleSemesterSelector(html, selector, semester) {
   });
 
   var coursesArray = [];
-  const icsdDomain = 'http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=';
+  const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
 
-  coursesOfThisSemester = tableFiltered.children('tr').each(function (i, elem) {
+  coursesOfThisSemester = tableFiltered.children("tr").each(function (i, elem) {
     var data = $(this);
 
     var row = data.children();
     var code = row.eq(0).text();
     var title = row.eq(1).text();
-    var link = row.eq(1).attr('href');
+    var link = row.eq(1).attr("href");
     var theoryHours = row.eq(2).text();
     var labHours = row.eq(3).text();
     var ects = row.eq(4).text();
@@ -136,7 +136,7 @@ function simpleSemesterSelector(html, selector, semester) {
     var eachItem = {
       code: code,
       title: title,
-      kind: 'Compulsory',
+      kind: "Compulsory",
       semester: semester,
       link: icsdDomain + code,
       theoryHours: theoryHours,
@@ -179,19 +179,19 @@ function cycleSemesterSelector(html, selector, semester) {
   });
 
   var coursesArray = [];
-  const icsdDomain = 'http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=';
+  const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
 
-  tableFiltered.children('table').children('tbody').each(function (i, elem) {
+  tableFiltered.children("table").children("tbody").each(function (i, elem) {
     var data = $(this);
 
-    data.children('tr').each(function (i, elem) {
+    data.children("tr").each(function (i, elem) {
       var data = $(this);
 
       var row = data.children();
 
       var code = row.eq(0).text();
       var title = row.eq(1).text();
-      var link = row.eq(1).attr('href');
+      var link = row.eq(1).attr("href");
       var theoryHours = row.eq(2).text();
       var labHours = row.eq(3).text();
       var ects = row.eq(4).text();
@@ -199,7 +199,7 @@ function cycleSemesterSelector(html, selector, semester) {
       var eachItem = {
         code: code,
         title: title,
-        kind: 'cycle',
+        kind: "cycle",
         semester: semester,
         link: icsdDomain + code,
         theoryHours: theoryHours,
@@ -217,8 +217,8 @@ function cycleSemesterSelector(html, selector, semester) {
 }
 
 function identifySemester(semeterUrl) {
-  //var semeterUrl = 'div#exam1>div:nth-child(2)';
-  var semester = semeterUrl.split('exam')[1].split('>')[0];
+  //var semeterUrl = "div#exam1>div:nth-child(2)";
+  var semester = semeterUrl.split("exam")[1].split(">")[0];
   return semester;
 }
 
