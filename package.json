@@ -1,7 +1,7 @@
 {
-  "name": "icsdscrapper",
-  "version": "1.0.0",
-  "description": "",
+  "name": "icsd-scraper",
+  "version": "2.0.0",
+  "description": "A Node.js module to scrap the icsd site and retrieve details about professors and courses.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,20 @@
   "license": "GPL-3.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "request": "^2.83.0"
-  }
+    "request": "^2.88.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yannisalexiou/icsd-scraper.git"
+  },
+  "keywords": [
+    "scraper",
+    "icsd",
+    "aegean",
+    "uota"
+  ],
+  "bugs": {
+    "url": "https://github.com/yannisalexiou/icsd-scraper/issues"
+  },
+  "homepage": "https://github.com/yannisalexiou/icsd-scraper#readme"
 }

@@ -3,13 +3,10 @@ const cheerio = require('cheerio');
 
 const professorDetails = require('./professor');
 
-//Links to search
-const urlDep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=dep';
-const urlPd407 = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=pd407';
-const urlPostDoc = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=postdoc';
-const ulrOthers = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=other';
-const urlEedip = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=eedip';
-const urlEtep = 'http://www.icsd.aegean.gr/icsd/prosopiko/members.php?category=etep';
+//New Links
+const academicStaff = 'http://www.icsd.aegean.gr/icsd/akadimaiko';
+const labStaff = 'http://www.icsd.aegean.gr/icsd/ergastiriako';
+const researchStaff = 'http://www.icsd.aegean.gr/icsd/erevnitiko';
 
 function requestTo(url) {
 return new Promise(function (resolve, reject) {
@@ -24,109 +21,54 @@ return new Promise(function (resolve, reject) {
 }
 
 async function getAllProfessors() {
-  console.log("Start searching... 🤓");
+  console.log("Start searching... 🧐");
 
   //Final Array
-  var allProfessors;
-
-  var allDepProfessors = await getDepCategoryProfessors(urlDep);
-  console.log("I still searching 🧐 \n");
-  var allOtherProfessors = await allOtherCategoriesProfessors();
-
-  allProfessors = allDepProfessors.concat(allOtherProfessors);
+  var allProfessors = await allProfessorsCategories();
 
   return allProfessors;
 }
 
-
-var getDepCategoryProfessors = async (url) => {
-  let html = await requestTo(url);
+var allProfessorsCategories = async () => {
 
   //The final Array
-  var professorsOfThisCategory;
-
-  //Creating the Selectors for each Table
-  var professors = 'table.menu_default>tbody>tr:nth-child(2)>td>table:nth-child(1)>tbody>tr';
-  var associateProfessors = 'table.menu_default>tbody>tr:nth-child(2)>td>table:nth-child(3)>tbody>tr';
-  var permantAssistantProfessors = 'table.menu_default>tbody>tr:nth-child(2)>td>table:nth-child(5)>tbody>tr';
-  var assistantProfessors = 'table.menu_default>tbody>tr:nth-child(2)>td>table:nth-child(7)>tbody>tr';
-  var retirementProfessors = 'table.menu_default>tbody>tr:nth-child(2)>td>table:nth-child(9)>tbody>tr';
-
-  //Make an array for each Selector
-  var professorsArray = professorDepTable(professors, html);
-  var associateProfessorsArray = professorDepTable(associateProfessors, html);
-  var permantAssistantProfessorsArray = professorDepTable(permantAssistantProfessors, html);
-  var assistantProfessorsArray = professorDepTable(assistantProfessors, html);
-  var retirementProfessorsArray = professorDepTable(retirementProfessors, html);
-
-  //Concat (Merge) all previous arrays into one
-  professorsOfThisCategory = professorsArray.concat(
-    associateProfessorsArray,
-    permantAssistantProfessorsArray,
-    assistantProfessorsArray,
-    retirementProfessorsArray);
-
-  //Search for more detauls for each professor
-  for (let i = 0; i < professorsOfThisCategory.length; i++) {
-
-    let thisProfessor = professorsOfThisCategory[i]
-    var professorFullDetails = await getProfessorProfile(thisProfessor);
-
-    //name, offce etc
-    professorsOfThisCategory[i] = professorFullDetails;
-  }
-
-  return professorsOfThisCategory;
-}
-
-var allOtherCategoriesProfessors = async () => {
-
-  //The final Array
-  var professorsOfOtherCategories;
+  var allProfessorsCategories;
 
   //Make an array from each page
-  var pdProfessorsArray = await getOtherCategoryProfessor(urlPd407);
-  var postDocProfessorsArray = await getOtherCategoryProfessor(urlPostDoc);
-  var otherProfessorsArray = await getOtherCategoryProfessor(ulrOthers);
-  var eedipProfessorsArray = await getOtherCategoryProfessor(urlEedip);
-  var etepProfessorsArray = await getOtherCategoryProfessor(urlEtep);
+  var academicProfessorsArray = await getProfessorCategory(academicStaff);
+  var labProfessorsArray = await getProfessorCategory(labStaff);
+  var researchProfessorsArray = await getProfessorCategory(researchStaff);
 
   //Concat (Merge) all previous arrays into one
-  professorsOfOtherCategories = pdProfessorsArray.concat(
-    postDocProfessorsArray,
-    otherProfessorsArray,
-    eedipProfessorsArray,
-    etepProfessorsArray);
+  allProfessorsCategories = academicProfessorsArray.concat(
+    labProfessorsArray,
+    researchProfessorsArray);
 
   //Search for more detauls for each professor
-  for (let i = 0; i < professorsOfOtherCategories.length; i++) {
+  for (let i = 0; i < allProfessorsCategories.length; i++) {
 
-    let thisProfessor = professorsOfOtherCategories[i]
+    let thisProfessor = allProfessorsCategories[i]
     var professorFullDetails = await getProfessorProfile(thisProfessor);
 
     //name, office etc
-    professorsOfOtherCategories[i] = professorFullDetails;
+    allProfessorsCategories[i] = professorFullDetails;
   }
-  return professorsOfOtherCategories;
+  return allProfessorsCategories;
 
 }
 
-var getOtherCategoryProfessor = async (url) => {
+var getProfessorCategory = async (url) => {
   let html = await requestTo(url);
 
+  var generalSelector = 'div.grid';
+
   //The final Array
-  var professorsOfThisCategory;
-
-  var generalSelector = 'table.menu_default>tbody>tr:nth-child(2)>td>table>tbody>tr';
-
-  var splittedLink = splitEqual(url);
-  var academicRank = checkAcademicRank(splittedLink[1]);
-  var professorsOfThisCategory = otherProfessorsTable(generalSelector, html, academicRank);
+  var professorsOfThisCategory = professorSectionDiv(generalSelector, html);
   return professorsOfThisCategory;
 
 }
 
-function otherProfessorsTable(selector, html, academicRank) {
+function professorSectionDiv(selector, html) {
   var $ = cheerio.load(html);
   var fullSideListFiltered = $(selector).filter(function() {
     var data = $(this);
@@ -134,13 +76,15 @@ function otherProfessorsTable(selector, html, academicRank) {
   });
 
   const professorsProfieArray = [];
-  const icsdDomain = 'http://www.icsd.aegean.gr';
+  const icsdDomain = 'http://www.icsd.aegean.gr/icsd/';
 
-  professorsOfThisCategory = fullSideListFiltered.children('td').each(function(i, elem) {
+  professorsOfThisCategory = fullSideListFiltered.children('div').each(function(i, elem) {
     var data = $(this);
 
-    var name = data.children().children().text();
-    var link = data.children().children().attr('href');
+    var name = data.children('a').children('p').eq(0).text();
+    var link = data.children('a').attr('href');
+    var academicRank = data.attr('data-category');
+    academicRank = checkAcademicRank(academicRank);
 
     var eachItem = {
       name: name,
@@ -154,69 +98,32 @@ function otherProfessorsTable(selector, html, academicRank) {
   return professorsProfieArray;
 }
 
-function professorDepTable(selector, html) {
-  var $ = cheerio.load(html);
-  var fullSideListFiltered = $(selector).filter(function() {
-    var data = $(this);
-    return data;
-  });
-
-  const professorsProfieArray = [];
-  const icsdDomain = 'http://www.icsd.aegean.gr';
-  var academicRank = '';
-
-  professorsOfThisCategory = fullSideListFiltered.children('td').each(function(i, elem) {
-    var data = $(this);
-
-    var professors = data.children().text();
-    var link = data.children().children().attr('href');
-
-    //Αν δεν έχει link τότε το professors είναι academicRank
-    if (!link) {
-      academicRank = checkAcademicRank(professors);
-    }
-    else {
-      var eachItem = {
-        name: professors,
-        link: icsdDomain + link,
-        academicRank: academicRank
-      }
-
-      professorsProfieArray.push(eachItem);
-    }
-  });
-  return professorsProfieArray;
-}
-
 function checkAcademicRank(receivedString) {
   var academicRank = '';
   switch (receivedString) {
-    case 'Καθηγητές':
+    case 'kathigitis':
       academicRank = 'Καθηγητής'
       break;
-    case 'Αναπληρωτές Καθηγητές':
+    case 'anaplirotis':
       academicRank = 'Αναπληρωτής Καθηγητής'
       break;
-    case 'Μόνιμοι Επίκουροι Καθήγητες':
+    case 'mepikouros':
       academicRank = 'Μόνιμος Επίκουρος Καθηγητής'
       break;
-    case 'Επίκουροι Καθηγητές':
+    case 'epikouros':
       academicRank = 'Επίκουρος Καθηγητής'
       break;
-    case 'Συνταξιοδοτημένα μέλη ΔΕΠ':
-      academicRank = 'Συνταξιοδοτημένο μέλος ΔΕΠ'
-      break;
-    case 'postdoc':
+    case 'meta':
       academicRank = 'Μεταδιδάκτορας'
-      break;
-    case 'other':
-      academicRank = 'Διδάσκων'
       break;
     case 'eedip':
       academicRank = 'ΕΔΙΠ/ΕΕΠ'
       break;
-    case 'etep':
-      academicRank = 'ΕΤΕΠ'
+    case 'phd':
+      academicRank = 'Υποψήφιος Διδάκτορας'
+      break;
+    case 'external':
+      academicRank = 'Εξωτερικός Συνεργάτης'
       break;
     default:
       academicRank = 'Διδάσκων'
@@ -238,12 +145,6 @@ async function getProfessorProfile(thisProfessor) {
     image: retrievedProfessorProfile.image
   }
   return eachProfessorFullDetails;
-}
-
-function splitEqual(receivedMessage) {
-  var fields = receivedMessage.split('=');
-
-  return fields;
 }
 
 module.exports = {
