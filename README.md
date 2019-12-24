@@ -1,6 +1,7 @@
 # icsd-scraper
 [![NPM](https://nodei.co/npm/icsd-scraper.png)](https://nodei.co/npm/icsd-scraper/)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f5ce4a2e05bc4d2c871a92a3cfd39306)](https://www.codacy.com/manual/yannisalexiou/icsd-scraper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yannisalexiou/icsd-scraper&amp;utm_campaign=Badge_Grade)
 [![npm version](https://badge.fury.io/js/icsd-scraper.svg)](https://badge.fury.io/js/icsd-scraper)
 [![GitHub version](https://badge.fury.io/gh/yannisalexiou%2Ficsd-scraper.svg)](https://badge.fury.io/gh/yannisalexiou%2Ficsd-scraper)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
