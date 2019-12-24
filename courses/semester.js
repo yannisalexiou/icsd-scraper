@@ -25,7 +25,7 @@ const freeCourseSemesterTableSelector = "div>div:nth-child(4)>table>tbody";
 function requestTo(url) {
   return new Promise(function (resolve, reject) {
     request(url, function (error, res, body) {
-      if (!error && res.statusCode == 200) {
+      if (!error && res.statusCode === 200) {
         resolve(body);
       } else {
         reject(error);
@@ -62,9 +62,9 @@ async function checkSemesters(isBasic) {
   );
 
   //TODO: Change = to ==
-  if (isBasic == true) {
+  if (isBasic === true) {
     var basicCourseData = [];
-    for (var i = 0; i < allCourses.length; i++) {
+    for (let i = 0; i < allCourses.length; i++) {
       //console.log("Title: " + allCourses[i].title);
       var thisBasicData = await course.getBasicCourseDetails(allCourses[i].link);
       basicCourseData.push(thisBasicData);
@@ -73,7 +73,7 @@ async function checkSemesters(isBasic) {
 
   } else {
     var advancedCourseData = [];
-    for (var i = 0; i < allCourses.length; i++) {
+    for (let i = 0; i < allCourses.length; i++) {
       var thisAdvancedCourseData = await course.getAllCourseDetails(allCourses[i].link);
       advancedCourseData.push(thisAdvancedCourseData);
     }
@@ -85,7 +85,7 @@ async function getCourseStructOfSemester(semesterSelector) {
 
   var semester = identifySemester(semesterSelector);
   var thisSemesterCourses;
-  if (semester < 7 || semester == 10) {
+  if (semester < 7 || semester === 10) {
     //Compulsory
     thisSemesterCourses = await getCompulsorySemesterCourses(semesterSelector, semester);
   } else {
@@ -103,7 +103,7 @@ async function getCompulsorySemesterCourses(semesterSelector, semester) {
 
   var tableSelector = semesterSelector + compulsorySemesterTableSelector;
   var thisSemesterCompulsoryCourses = await simpleSemesterSelector(html, tableSelector, semester);
-  var tableSelector = semesterSelector + optionalSemesterTableSelector;
+  tableSelector = semesterSelector + optionalSemesterTableSelector;
   var thisSemesterOptionalCourses = await simpleSemesterSelector(html, tableSelector, semester);
   coursesOfThisSemester = thisSemesterCompulsoryCourses.concat(
     thisSemesterOptionalCourses
@@ -122,7 +122,7 @@ function simpleSemesterSelector(html, selector, semester) {
   var coursesArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
 
-  coursesOfThisSemester = tableFiltered.children("tr").each(function (i, elem) {
+  coursesOfThisSemester = tableFiltered.children("tr").each(function (i) {
     var data = $(this);
 
     var row = data.children();

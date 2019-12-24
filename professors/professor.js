@@ -19,7 +19,7 @@ async function getProfessorsDetails(url) {
 function requestProfessorDetails(url) {
   return new Promise(function (resolve, reject) {
     request(url, function (error, res, body) {
-      if (!error && res.statusCode == 200) {
+      if (!error && res.statusCode === 200) {
         resolve(body);
       } else {
         reject(error);

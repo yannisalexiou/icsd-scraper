@@ -11,7 +11,7 @@ const researchStaff = "http://www.icsd.aegean.gr/icsd/erevnitiko";
 function requestTo(url) {
 return new Promise(function (resolve, reject) {
     request(url, function (error, res, body) {
-      if (!error && res.statusCode == 200) {
+      if (!error && res.statusCode === 200) {
         resolve(body);
       } else {
         reject(error);

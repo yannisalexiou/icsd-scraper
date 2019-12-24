@@ -1,7 +1,7 @@
 const request = require("request"); //Helps us make HTTP calls
 const cheerio = require("cheerio");
 
-const generalSelector = "div.tab-content";
+//const generalSelector = "div.tab-content";
 const contentOutlineSelector = "div.tab-content>div:nth-child(3)>div:nth-child(2)>p";
 const learningOutcomesSelector = "div.tab-content>div:nth-child(4)>div:nth-child(2)>";
 const prerequisitesSelector = "div.tab-content>div:nth-child(5)>div:nth-child(2)>p";
@@ -15,7 +15,7 @@ const modeOfDeliverySelector = "div.tab-content>div:nth-child(11)>div:nth-child(
 function requestCourseDetails(url) {
     return new Promise(function (resolve, reject) {
         request(url, function (error, res, body) {
-            if (!error && res.statusCode == 200) {
+            if (!error && res.statusCode === 200) {
                 resolve(body);
             } else {
                 reject(error);

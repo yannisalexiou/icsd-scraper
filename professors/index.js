@@ -16,7 +16,7 @@ var retrieveStaffLinks = (url) => {
         const staffArray = [];
         var listOfStaff = data.next().children().last();
 
-        listOfStaff.children("li").each(function(i, elem) {
+        listOfStaff.children("li").each(function(i) {
           staffArray[i] = $(this).text();
         });
 
@@ -25,7 +25,7 @@ var retrieveStaffLinks = (url) => {
 
         // Retrieve the Href (link) of each Staff Category
         const staffArrayOfHref = [];
-        listOfStaff.children("li").each(function(i, elem) {
+        listOfStaff.children("li").each(function(i) {
 
           var eachItem = {
             staffKind : $(this).children().attr("href")
