@@ -77,8 +77,8 @@ function professorSectionDiv(selector, html) {
 
   const professorsProfieArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/";
-
-  professorsOfThisCategory = fullSideListFiltered.children("div").each(function(i, elem) {
+  //professorsOfThisCategory
+  fullSideListFiltered.children("div").each(function(i) {
     var data = $(this);
 
     var name = data.children("a").children("p").eq(0).text();

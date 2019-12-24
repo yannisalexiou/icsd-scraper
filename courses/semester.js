@@ -121,8 +121,8 @@ function simpleSemesterSelector(html, selector, semester) {
 
   var coursesArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
-
-  coursesOfThisSemester = tableFiltered.children("tr").each(function (i) {
+  //coursesOfThisSemester
+  tableFiltered.children("tr").each(function () {
     var data = $(this);
 
     var row = data.children();
