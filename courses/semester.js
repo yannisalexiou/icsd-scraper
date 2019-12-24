@@ -158,13 +158,13 @@ async function getCycleSemesterCourses(semesterSelector, semester) {
   var tableSelector = semesterSelector + cicleSemesterTableSelector;
   var thisSemesterCourses = await cycleSemesterSelector(html, tableSelector, semester);
   //Semester optional
-  var tableSelector = semesterSelector + optionalSemesterTableSelector;
+  tableSelector = semesterSelector + optionalSemesterTableSelector;
   var thisSemesterOptionalCourses = await simpleSemesterSelector(html, tableSelector, semester);
   //Semester free
-  var tableSelector = semesterSelector + freeCourseSemesterTableSelector;
+  tableSelector = semesterSelector + freeCourseSemesterTableSelector;
   var thisSemesterFreeCourses = await simpleSemesterSelector(html, tableSelector, semester);
   
-  var coursesOfThisSemester = thisSemesterCourses.concat(
+  coursesOfThisSemester = thisSemesterCourses.concat(
     thisSemesterOptionalCourses,
     thisSemesterFreeCourses
   );
@@ -181,10 +181,10 @@ function cycleSemesterSelector(html, selector, semester) {
   var coursesArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
 
-  tableFiltered.children("table").children("tbody").each(function (i, elem) {
+  tableFiltered.children("table").children("tbody").each(function (i) {
     var data = $(this);
 
-    data.children("tr").each(function (i, elem) {
+    data.children("tr").each(function (i) {
       var data = $(this);
 
       var row = data.children();
