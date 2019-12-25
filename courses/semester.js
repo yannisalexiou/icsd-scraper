@@ -128,7 +128,7 @@ function simpleSemesterSelector(html, selector, semester) {
     var row = data.children();
     var code = row.eq(0).text();
     var title = row.eq(1).text();
-    var link = row.eq(1).attr("href");
+    //var link = row.eq(1).attr("href");
     var theoryHours = row.eq(2).text();
     var labHours = row.eq(3).text();
     var ects = row.eq(4).text();
@@ -181,17 +181,17 @@ function cycleSemesterSelector(html, selector, semester) {
   var coursesArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
 
-  tableFiltered.children("table").children("tbody").each(function (i) {
+  tableFiltered.children("table").children("tbody").each(function () {
     var data = $(this);
 
-    data.children("tr").each(function (i) {
+    data.children("tr").each(function () {
       var data = $(this);
 
       var row = data.children();
 
       var code = row.eq(0).text();
       var title = row.eq(1).text();
-      var link = row.eq(1).attr("href");
+      //var link = row.eq(1).attr("href");
       var theoryHours = row.eq(2).text();
       var labHours = row.eq(3).text();
       var ects = row.eq(4).text();
