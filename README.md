@@ -10,6 +10,9 @@
 A Node.js package that scraps the [ICSD site](http://www.icsd.aegean.gr/icsd/) and retrieve details about courses and professors.
 This package is very useful for thesis work or other academic projects.
 
+## Prefer Python?
+My old fella from university [CheatModeOn](https://github.com/CheatModeON/) has made the same module written in python. [Check here](https://github.com/CheatModeON/icsd-scraper).
+
 ## Usage
 
 ### Install
