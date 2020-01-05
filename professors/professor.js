@@ -34,7 +34,7 @@ function professorDetails(html, url) {
   var name = $(nameSelector).text();
   var office = $(officeSelector).eq(1).text();
   var tel = $(telSelector).eq(2).text();
-  var email = $(emailSelector).eq(3).text();
+  var email = $(emailSelector).last().text();
   var website = $(websiteSelector).eq(2).children("a").attr("href");
   var image = $(imageSelector).attr("src");
   var citations = $(citationsSelector).eq(1).attr("href");
