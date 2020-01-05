@@ -46,6 +46,9 @@ function professorDetails(html, url) {
     website = url;
   }
   //Normalize email
+  if (!email.includes(" [dot] ") && !email.indexOf(" [at] ") !== -1) {
+    email = "";
+  }
   if (email.indexOf(" [at] ") !== -1) {
     email = email.replace(" [at] ", "@");
   }
