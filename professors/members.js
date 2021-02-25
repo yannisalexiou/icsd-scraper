@@ -1,4 +1,4 @@
-const request = require("request"); //Helps us make HTTP calls
+const fetch = require("node-fetch"); //Helps us make HTTP calls
 const cheerio = require("cheerio");
 
 const professorDetails = require("./professor");
@@ -8,16 +8,15 @@ const academicStaff = "http://www.icsd.aegean.gr/icsd/akadimaiko";
 const labStaff = "http://www.icsd.aegean.gr/icsd/ergastiriako";
 const researchStaff = "http://www.icsd.aegean.gr/icsd/erevnitiko";
 
-function requestTo(url) {
-return new Promise(function (resolve, reject) {
-    request(url, function (error, res, body) {
-      if (!error && res.statusCode === 200) {
-        resolve(body);
-      } else {
-        reject(error);
-      }
-    });
-  });
+async function requestTo(url) {
+  try {
+    const response = await fetch(url);
+    const body = await response.text();
+    return body;
+  } catch (error) {
+    console.log(error);
+    return error
+  }
 }
 
 async function getAllProfessors() {
@@ -70,7 +69,7 @@ var getProfessorCategory = async (url) => {
 
 function professorSectionDiv(selector, html) {
   var $ = cheerio.load(html);
-  var fullSideListFiltered = $(selector).filter(function() {
+  var fullSideListFiltered = $(selector).filter(function () {
     var data = $(this);
     return data;
   });
@@ -78,7 +77,7 @@ function professorSectionDiv(selector, html) {
   const professorsProfieArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/";
   //professorsOfThisCategory
-  fullSideListFiltered.children("div").each(function() {
+  fullSideListFiltered.children("div").each(function () {
     var data = $(this);
 
     var name = data.children("a").children("p").eq(0).text();

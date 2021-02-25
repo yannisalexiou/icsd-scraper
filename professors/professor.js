@@ -1,4 +1,4 @@
-const request = require("request"); //Helps us make HTTP calls
+const fetch = require("node-fetch"); //Helps us make HTTP calls
 const cheerio = require("cheerio");
 
 const nameSelector = "ul.m-subheader__breadcrumbs>li:nth-child(7)>a>span>b>i";
@@ -16,16 +16,15 @@ async function getProfessorsDetails(url) {
   return professorDetailsList
 }
 
-function requestProfessorDetails(url) {
-  return new Promise(function (resolve, reject) {
-    request(url, function (error, res, body) {
-      if (!error && res.statusCode === 200) {
-        resolve(body);
-      } else {
-        reject(error);
-      }
-    });
-  });
+async function requestProfessorDetails(url) {
+  try {
+    const response = await fetch(url);
+    const body = await response.text();
+    return body;
+  } catch (error) {
+    console.log(error);
+    return error
+  }
 }
 
 function professorDetails(html, url) {
@@ -55,7 +54,7 @@ function professorDetails(html, url) {
   if (email.includes(" [dot] ")) {
     email = email.replace(" [dot] ", ".")
   }
-  
+
   var details = {
     name: name,
     office: office,

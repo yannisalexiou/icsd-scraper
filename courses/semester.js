@@ -1,4 +1,4 @@
-const request = require("request"); //Helps us make HTTP calls
+const fetch = require("node-fetch"); //Helps us make HTTP calls
 const cheerio = require("cheerio");
 
 const course = require("./course");
@@ -22,16 +22,15 @@ const cicleSemesterTableSelector = "div>div:nth-child(2)";
 const optionalSemesterTableSelector = "div>div:nth-child(3)>table>tbody";
 const freeCourseSemesterTableSelector = "div>div:nth-child(4)>table>tbody";
 
-function requestTo(url) {
-  return new Promise(function (resolve, reject) {
-    request(url, function (error, res, body) {
-      if (!error && res.statusCode === 200) {
-        resolve(body);
-      } else {
-        reject(error);
-      }
-    });
-  });
+async function requestTo(url) {
+  try {
+    const response = await fetch(url);
+    const body = await response.text();
+    return body;
+  } catch (error) {
+    console.log(error);
+    return error
+  }
 }
 
 async function checkSemesters(isBasic) {
@@ -122,7 +121,7 @@ function simpleSemesterSelector(html, selector, semester) {
   var coursesArray = [];
   const icsdDomain = "http://www.icsd.aegean.gr/icsd/pps_lessons.php?lesson_id=";
   //coursesOfThisSemester
-  tableFiltered.children("tr").each(function () {
+  tableFiltered.children("span").each(function () {
     var data = $(this);
 
     var row = data.children();
@@ -163,7 +162,7 @@ async function getCycleSemesterCourses(semesterSelector, semester) {
   //Semester free
   tableSelector = semesterSelector + freeCourseSemesterTableSelector;
   var thisSemesterFreeCourses = await simpleSemesterSelector(html, tableSelector, semester);
-  
+
   coursesOfThisSemester = thisSemesterCourses.concat(
     thisSemesterOptionalCourses,
     thisSemesterFreeCourses

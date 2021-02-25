@@ -1,4 +1,4 @@
-const request = require("request"); //Helps us make HTTP calls
+const fetch = require("node-fetch"); //Helps us make HTTP calls
 const cheerio = require("cheerio");
 
 //const generalSelector = "div.tab-content";
@@ -12,16 +12,15 @@ const grandingMethodSelector = "div.tab-content>div:nth-child(9)>div:nth-child(2
 const languageOfInstructionSelector = "div.tab-content>div:nth-child(10)>div:nth-child(2)";
 const modeOfDeliverySelector = "div.tab-content>div:nth-child(11)>div:nth-child(2)>p";
 
-function requestCourseDetails(url) {
-    return new Promise(function (resolve, reject) {
-        request(url, function (error, res, body) {
-            if (!error && res.statusCode === 200) {
-                resolve(body);
-            } else {
-                reject(error);
-            }
-        });
-    });
+async function requestCourseDetails(url) {
+    try {
+        const response = await fetch(url);
+        const body = await response.text();
+        return body;
+    } catch (error) {
+        console.log(error);
+        return error
+    }
 }
 
 async function getAllCourseDetails(url) {
